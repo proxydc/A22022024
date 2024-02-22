@@ -23,7 +23,6 @@
             <th scope="col">Email</th>
             <th scope="col">Status</th>
             <th scope="col">Tags</th>
-            <th scope="col">Manager</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
@@ -34,7 +33,6 @@
             <td class="text-start">{{ acRow.email }}</td>
             <td class="text-start">{{ acRow.status_name }}</td>
             <td class="text-start">{{ acRow.tags }}</td>
-            <td class="text-start">{{ acRow.manager_name }}</td>
             <td>
               <a class="btn btn-success mx-2" :href="'/#/editDC/' + acRow.id">
                 Edit
@@ -47,9 +45,6 @@
               </a>
               <img type="button" class="btn btn-outline-warning btn-sm" src="../assets/copyimage.png"
                 @click="CopyUrl(acRow.id)" />
-              <a class="btn btn-outline-primary btn-sm mx-2" :href="'/#/dcDownload/' + acRow.id" target="_blank">
-                Download
-              </a>
             </td>
           </tr>
         </tbody>
@@ -63,7 +58,6 @@
 import Admin_Layout from "../admin/admin_Layout.vue";
 import axios from "axios";
 import urldc from "../_helpers/urllist.js";
-import $ from "jquery";
 export default {
   name: "user",
   components: { Admin_Layout },
@@ -87,13 +81,11 @@ export default {
     getDCs() {
       try {
         const url = urldc.getDcsUrl();
-       // alert("url: "+url);
         axios.get(url).then((res) => {
           console.log(res.data);
           switch (res.status) {
             case 200:
               this.AcRows = res.data;
-              $(document).ready(function () { $('#usertable').DataTable(); });
               break;
             default:
               this.error = "Database error! Status: " + result.status + " Error: " + result.data;
